@@ -29,6 +29,12 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
+var apiV1ResponsesController = require('./controllers/api/v1/responses');
+var apiV1SurveysController   = require('./controllers/api/v1/surveys');
+var apiV1UsersController     = require('./controllers/api/v1/users');
+var workflowCrudController   = require('./controllers/workflow/crud');
+var workflowPublicReportController = require('./controllers/workflow/publicReport');
+var workflowPublicSurveyController = require('./controllers/workflow/publicSurvey');
 
 /**
  * API keys and Passport configuration.
@@ -208,6 +214,37 @@ app.get('/auth/venmo', passport.authorize('venmo', { scope: 'make_payments acces
 app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '/api' }), function(req, res) {
   res.redirect('/api/venmo');
 });
+
+/**
+ * API v1 Routes.
+ */
+app.get(   '/api/v1/responses',     passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1ResponsesController.index);
+app.post(  '/api/v1/responses',     passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1ResponsesController.create);
+app.get(   '/api/v1/responses/:id', passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1ResponsesController.read);
+app.put(   '/api/v1/responses/:id', passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1ResponsesController.update);
+app.delete('/api/v1/responses/:id', passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1ResponsesController.delete);
+app.get(   '/api/v1/surveys',       passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1SurveysController.index);
+app.post(  '/api/v1/surveys',       passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1SurveysController.create);
+app.get(   '/api/v1/surveys/:id' ,  passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1SurveysController.read);
+app.put(   '/api/v1/surveys/:id',   passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1SurveysController.update);
+app.delete('/api/v1/surveys/:id',   passportConf.isAuthenticated, passportConf.hasRole(['Administrator','Editor']), apiV1SurveysController.delete);
+app.get(   '/api/v1/users',         passportConf.isAuthenticated, passportConf.hasRole(['Administrator']),          apiV1UsersController.index);
+app.post(  '/api/v1/users',         passportConf.isAuthenticated, passportConf.hasRole(['Administrator']),          apiV1UsersController.create);
+app.get(   '/api/v1/users/:id',     passportConf.isAuthenticated, passportConf.hasRole(['Administrator']),          apiV1UsersController.read);
+app.put(   '/api/v1/users/:id',     passportConf.isAuthenticated, passportConf.hasRole(['Administrator']),          apiV1UsersController.update);
+app.delete('/api/v1/users/:id',     passportConf.isAuthenticated, passportConf.hasRole(['Administrator']),          apiV1UsersController.delete);
+/**
+ * Workflow Routes.
+ */
+app.get(   '/r',                                                                                                    workflowPublicReportController.index);
+app.get(   '/r/:survey_slug',                                                                                       workflowPublicReportController.getApp);
+app.get(   '/r/:survey_slug/api/v1/responses',                                                                      workflowPublicReportController.getApiV1Responses);
+app.get(   '/r/:survey_slug/login',                                                                                 workflowPublicReportController.getLogin);
+app.post(  '/r/:survey_slug/login',                                                                                 workflowPublicReportController.postLogin);
+app.get(   '/s',                                                                                                    workflowPublicSurveyController.index);
+app.get(   '/s/:survey_slug',                                                                                       workflowPublicSurveyController.read);
+app.post(  '/s/:survey_slug',                                                                                       workflowPublicSurveyController.create);
+app.get(   '/workflow/crud',        passportConf.isAuthenticated, passportConf.hasRole(['Administrator']),          workflowCrudController.index);
 
 /**
  * 500 Error Handler.

@@ -1,0 +1,278 @@
+<script type="text/x-handlebars" data-template-name="application">
+  <div class="container">
+    {{outlet}}
+  </div>
+</script>
+<script type="text/x-handlebars" data-template-name="index">
+  <ol class="breadcrumb"><li class="active">CRUD</li></ol>
+  <div class="jumbotron">
+    <h1>{{title}}</h1>
+    <p class="tagline">(Create, Read, Update, Delete)</p>
+    <p>{{#link-to "surveys" class="btn btn-primary btn-lg"}}View Surveys &raquo;{{/link-to}}</p>
+  </div>
+  <p class="pull-right text-muted">Rendered on {{timestamp}}.</p> 
+</script>
+
+
+
+
+<script type="text/x-handlebars" data-template-name="surveys">
+  <ol class="breadcrumb"><li>{{#link-to "index"}}CRUD{{/link-to}}</li><li class="active">Surveys</li></ol>
+  <div class="page-header"><h3>Surveys ({{count}}) {{#link-to "surveys.new" tagName="button" classNames="btn btn-success btn-sm pull-right"}}<span class="ion-plus"></span>New Survey{{/link-to}}</h3></div>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="list-group">
+        {{#each}}{{#link-to "survey" this classNames="list-group-item"}}{{title}}{{/link-to}}{{/each}}
+      </div>
+    </div>
+    <div class="col-sm-9">
+      {{outlet}}
+    </div>
+  </div>
+</script>
+<script type="text/x-handlebars" data-template-name="surveys/index">
+  <p class="text-muted">Choose a survey from the list.</p>
+</script>
+<script type="text/x-handlebars" data-template-name="surveys/new">
+  <form class="form-horizontal well">
+    <legend>{{title}}</legend>
+    {{survey-fields survey=model tag="fieldset" isDisabled=false}}
+    <fieldset>
+      <div class="form-group">
+        <div class="col-lg-9 col-lg-offset-3">
+          <div class="pull-right">
+            {{#link-to "surveys.index" tagName="button" classNames="btn btn-default"}}<span class="ion-android-system-back"></span>Cancel{{/link-to}}
+            <button {{action "create"}} class="btn btn-primary"><span class="ion-checkmark"></span>Create Survey</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</script>
+<script type="text/x-handlebars" data-template-name="survey">
+  {{outlet}}
+</script>
+<script type="text/x-handlebars" data-template-name="survey/index">
+  <form class="form-horizontal well">
+    <legend>{{title}}{{#link-to "survey.edit" tagName="button" classNames="btn btn-primary btn-xs pull-right"}}<span class="ion-edit"></span>Edit Survey{{/link-to}}</legend>
+    {{survey-fields survey=model tag="fieldset" isDisabled=true}}
+  </form>
+</script>
+<script type="text/x-handlebars" data-template-name="survey/edit">
+  <form class="form-horizontal well">
+    <legend>{{title}}</legend>
+    {{survey-fields survey=model tag="fieldset" isDisabled=false}}
+    <fieldset>
+      <div class="form-group">
+        <div class="col-lg-6">
+          <div class="pull-left">
+            <button {{action "delete"}} class="btn btn-danger"><span class="ion-trash-b"></span>Delete Survey</button>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="pull-right">
+            {{#link-to "survey.index" tagName="button" classNames="btn btn-default"}}<span class="ion-android-system-back"></span>Cancel{{/link-to}}
+            <button {{action "update"}} class="btn btn-primary"><span class="ion-checkmark"></span>Save Survey</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</script>
+<script type="text/x-handlebars" data-template-name="components/survey-fields">
+  <div class="form-group">
+    <label for="slug" class="col-lg-3 control-label">Slug</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.slug" id="slug" placeholder="Slug" required="true" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="title" class="col-lg-3 control-label">Title</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.title" id="title" placeholder="Title" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-lg-3 control-label">Description</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.description" id="description" placeholder="Description" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="password" class="col-lg-3 control-label">Password</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.password" id="password" placeholder="Password" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="googleAnalyticsId" class="col-lg-3 control-label">Google Analytics ID</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.googleAnalyticsId" id="googleAnalyticsId" placeholder="Google Analytics ID" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="inspectletId" class="col-lg-3 control-label">Inspectlet ID</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.inspectletId" id="inspectletId" placeholder="Inspectlet ID" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="jiraKey" class="col-lg-3 control-label">JIRA Key</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.jiraKey" id="jiraKey" placeholder="JIRA Key" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <label style="margin:0;vertical-align:middle;"><h3 class="panel-title">Questions</h3></label>
+      <button {{action "addQuestion"}} {{bind-attr disabled=isDisabled}} class="btn btn-success btn-xs pull-right"><span class="ion-plus"></span>Add Question</button>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Slug</th>
+          <th>Type</th>
+          <th>Label</th>
+          <th>Placeholder</th>
+          <th>Required?</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each question in survey.questions}}
+        <tr>
+          <td>{{view Ember.TextField valueBinding="question.slug" placeholder="Slug" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{view Ember.Select selectionBinding="question.type" content=validQuestionTypes prompt="Select A Type..." required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{view Ember.TextField valueBinding="question.label" placeholder="Label" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{view Ember.TextField valueBinding="question.placeholder" placeholder="Placeholder" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{view Ember.Checkbox checkedBinding="question.required" title="required" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td><button {{action "removeQuestion" question}} {{bind-attr disabled=isDisabled}} class="btn btn-danger" style="padding-left:12px;padding-right:12px;"><span class="fa fa-trash-o fa-lg" style="margin:auto;"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</script>
+
+
+
+
+<script type="text/x-handlebars" data-template-name="responses">
+  <ol class="breadcrumb"><li>{{#link-to "index"}}CRUD{{/link-to}}</li><li class="active">Responses</li></ol>
+  <div class="page-header"><h3>Responses ({{count}}) {{#link-to "responses.new" tagName="button" classNames="btn btn-success btn-sm pull-right"}}<span class="ion-plus"></span>New Response{{/link-to}}</h3></div>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="list-group">
+        {{#each}}{{#link-to "response" this classNames="list-group-item"}}{{id}}{{/link-to}}{{/each}}
+      </div>
+    </div>
+    <div class="col-sm-9">
+      {{outlet}}
+    </div>
+  </div>
+</script>
+<script type="text/x-handlebars" data-template-name="responses/index">
+  <p class="text-muted">Choose a response from the list.</p>
+</script>
+<script type="text/x-handlebars" data-template-name="responses/new">
+  <form class="form-horizontal well">
+    <legend>{{id}}</legend>
+    {{response-fields response=model validSurveys=validSurveys tag="fieldset" isDisabled=false}}
+    <fieldset>
+      <div class="form-group">
+        <div class="col-lg-9 col-lg-offset-3">
+          <div class="pull-right">
+            {{#link-to "responses.index" tagName="button" classNames="btn btn-default"}}<span class="ion-android-system-back"></span>Cancel{{/link-to}}
+            <button {{action "create"}} class="btn btn-primary"><span class="ion-checkmark"></span>Create Response</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</script>
+<script type="text/x-handlebars" data-template-name="response">
+  {{outlet}}
+</script>
+<script type="text/x-handlebars" data-template-name="response/index">
+  <form class="form-horizontal well">
+    <legend>{{id}}{{#link-to "response.edit" tagName="button" classNames="btn btn-primary btn-xs pull-right"}}<span class="ion-edit"></span>Edit Response{{/link-to}}</legend>
+    {{response-fields response=model validSurveys=validSurveys tag="fieldset" isDisabled=true}}
+  </form>
+</script>
+<script type="text/x-handlebars" data-template-name="response/edit">
+  <form class="form-horizontal well">
+    <legend>{{id}}</legend>
+    {{response-fields response=model validSurveys=validSurveys tag="fieldset" isDisabled=false}}
+    <fieldset>
+      <div class="form-group">
+        <div class="col-lg-6">
+          <div class="pull-left">
+            <button {{action "delete"}} class="btn btn-danger"><span class="ion-trash-b"></span>Delete Response</button>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="pull-right">
+            {{#link-to "response.index" tagName="button" classNames="btn btn-default"}}<span class="ion-android-system-back"></span>Cancel{{/link-to}}
+            <button {{action "update"}} class="btn btn-primary"><span class="ion-checkmark"></span>Save Response</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</script>
+<script type="text/x-handlebars" data-template-name="components/response-fields">
+  <div class="form-group">
+    <label for="survey" class="col-lg-3 control-label">Survey</label>
+    <div class="col-lg-9">{{view Ember.Select selectionBinding="response.survey" content=validSurveys optionValuePath="content.id" optionLabelPath="content.slug" id="survey" prompt="Select A Survey..." required="true" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="ipAddress" class="col-lg-3 control-label">IP Address</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.ipAddress" id="ipAddress" placeholder="IP Address" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="agent" class="col-lg-3 control-label">Agent</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.agent" id="agent" placeholder="Agent" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="operatingSystem" class="col-lg-3 control-label">Operating System</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.operatingSystem" id="operatingSystem" placeholder="Operating System" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="device" class="col-lg-3 control-label">Device</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.device" id="device" placeholder="Device" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="screenResolution" class="col-lg-3 control-label">Screen Resolution</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.screenResolution" id="screenResolution" placeholder="Screen Resolution" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="referrer" class="col-lg-3 control-label">Referrer</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.referrer" id="referrer" placeholder="Referrer" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="visitorId" class="col-lg-3 control-label">Visitor ID</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.visitorId" id="visitorId" placeholder="Visitor ID" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="imported" class="col-lg-3 control-label">Imported?</label>
+    <div class="col-lg-9">{{view Ember.Checkbox checkedBinding="response.imported" id="imported" title="imported" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="inspectletCaptureSid" class="col-lg-3 control-label">Inspectlet Capture SID</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.inspectletCaptureSid" id="inspectletCaptureSid" placeholder="Inspectlet Capture SID" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="form-group">
+    <label for="inspectletCaptureUrl" class="col-lg-3 control-label">Inspectlet Capture URL</label>
+    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.inspectletCaptureUrl" id="inspectletCaptureUrl" placeholder="Inspectlet Capture URL" required="false" class="form-control" disabled=isDisabled}}</div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <label style="margin:0;vertical-align:middle;"><h3 class="panel-title">Answers</h3></label>
+      <button {{action "addAnswer"}} {{bind-attr disabled=isDisabled}} class="btn btn-success btn-xs pull-right"><span class="ion-plus"></span>Add Answer</button>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Slug</th>
+          <th>Value</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each answer in response.answers}}
+        <tr>
+          <td>{{view Ember.TextField valueBinding="answer.slug" placeholder="Slug" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{view Ember.TextField valueBinding="answer.value" placeholder="Value" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td><button {{action "removeAnswer" answer}} {{bind-attr disabled=isDisabled}} class="btn btn-danger" style="padding-left:12px;padding-right:12px;"><span class="fa fa-trash-o fa-lg" style="margin:auto;"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</script>

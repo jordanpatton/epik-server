@@ -1,3 +1,4 @@
+# hackathon-starter
 lib-cov
 *.seed
 *.log
@@ -18,4 +19,17 @@ node_modules
 .idea
 *.iml
 .DS_Store
+._.DS_Store
 Thumbs.db
+
+# Text Editor
+*.sublime-workspace
+*.tmproj
+*.tmproject
+
+# Compiled Files
+builtAssets
+.temp
+
+# SQLite
+*.sqlite

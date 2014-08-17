@@ -7,15 +7,11 @@ html
     meta(name='description', content='')
     meta(name='csrf-token', content=_csrf)
     meta(name='author', content='')
-    title #{title} | Epic
+    title #{title || "Error"}
     != css('styles')
-  body
-    include partials/navbar
-
+  body(style="padding-top:0;")
     .container
-      include partials/flash
-      block content
-
-    include partials/footer
-
-    != js('application')
+      h3 Error
+      p Uh oh! An error occurred!
+    != js('lib/jquery-2.1.1.min')
+    != js('lib/bootstrap.min')

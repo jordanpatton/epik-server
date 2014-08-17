@@ -9,17 +9,23 @@ block content
     .form-group
       label(class='col-sm-2 control-label', for='name') Name
       .col-sm-8
-        input.form-control(type='text', name='name', id='name', autofocus=true)
+        if user && user.profile && user.profile.name
+          input.form-control(type='text', name='name', id='name', value='#{user.profile.name}', autofocus=true)
+        else
+          input.form-control(type='text', name='name', id='name', value='', autofocus=true)
     .form-group
       label(class='col-sm-2 control-label', for='email') Email
       .col-sm-8
-        input.form-control(type='text', name='email', id='email')
+        if user && user.email
+          input.form-control(type='text', name='email', value='#{user.email}', id='email')
+        else
+          input.form-control(type='text', name='email', value='', id='email')
     .form-group
       label(class='col-sm-2 control-label', for='message') Body
       .col-sm-8
         textarea.form-control(type='text', name='message', id='message', rows='7')
     .form-group
       .col-sm-offset-2.col-sm-8
-        button.btn.btn-primary(type='submit')
+        button.btn.btn-primary(type='submit', class="pull-right")
           span.ion-paper-airplane
           | Send

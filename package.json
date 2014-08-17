@@ -1,10 +1,23 @@
 {
-  "name": "hackathon-starter",
-  "version": "2.3.2",
+  "name": "epic",
+  "version": "1.0.0",
+  "description": "Get the whole story.",
+  "author": "Jordan Patton <jordanpatton@gmail.com>",
+  "keywords": [
+    "epic",
+    "surveys",
+    "data",
+    "user",
+    "feedback",
+    "analytics",
+    "qualitative",
+    "research"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+    "url": "https://github.com/jordanpatton/epic.git"
   },
+  "private": true,
   "scripts": {
     "start": "node app.js",
     "test": "mocha"
@@ -55,7 +68,11 @@
     "twit": "^1.1.18",
     "uglify-js": "^2.4.15",
     "validator": "^3.17.0",
-    "yui": "^3.17.2"
+    "yui": "^3.17.2",
+    "googleapis": "0.7.0",
+    "inspectletapi": "0.0.1",
+    "surveymonkey": "0.0.4",
+    "useragent": "2.0.9"
   },
   "devDependencies": {
     "blessed": "^0.0.37",

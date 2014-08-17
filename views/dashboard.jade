@@ -2,9 +2,9 @@ extends layout
 
 block content
   .page-header
-    h1 Epic
+    h1 Welcome, #{user.profile.name}!
   .row
     .col-sm-6
-      h2 Home
+      h2 Dashboard
       p
         a.btn.btn-default(href='/contact', role='button', class='pull-right') Need Help? »

@@ -1,0 +1,74 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='')
+    meta(name='csrf-token', content=_csrf)
+    meta(name='author', content='')
+    title #{title || "Survey"}
+    != css('styles')
+  body(style="padding-top:0;")
+    .container(id="beforeSubmit")
+      h3 #{survey.title || "Survey"}
+      if(typeof survey.description !== "undefined" && survey.description !== null && survey.description !== "")
+        p !{survey.description}
+      form(role="form" method="POST" id="response" name="response" class="form-horizontal")
+        input(type="hidden" name="_csrf" value=_csrf)
+        input(type="hidden" name="isAjax" value="no")
+        input(type="hidden" name="survey" value=survey._id)
+        input(type="hidden" name="screenResolution" value="")
+        fieldset
+          div(row)
+            div(class="col-lg-12 well")
+              each question, i in survey.questions
+                div(class="form-group")
+                  div(row)
+                    div(class="col-lg-12")
+                      label(for=question._id) #{question.label}
+                  div(row)
+                    div(class="col-lg-12")
+                      if(['date','datetime','datetime-local','email','month','number','search','tel','text','time','url','week'].indexOf(question.type) !== -1)
+                        input(type=question.type class="form-control" id=question._id name="answers["+question.slug+"]" placeholder=question.placeholder required=question.required)
+                      else if(question.type === 'textarea')
+                        textarea(type="text" class="form-control" id=question._id name="answers["+question.slug+"]" placeholder=question.placeholder required=question.required rows="5")
+                      else
+                        input(type="text" class="form-control" id=question._id name="answers["+question.slug+"]" placeholder=question.placeholder required=question.required)
+          div(row)
+            div(class="col-lg-6")
+              a(class="btn btn-default pull-left" target="_self" href="#" onclick="javascript:window.close();return false;")
+                span(class="ion-close")
+                | Cancel
+            div(class="col-lg-6")
+              button(type="submit" class="btn btn-primary pull-right")
+                span(class="ion-checkmark")
+                | Submit
+    .container(id="afterSubmit" style="display:none;")
+      div(row)
+        div(class="col-lg-12")
+          p &nbsp;
+          h3 Thank you!
+      div(row)
+        div(class="col-lg-12")
+          p &nbsp;
+          a(class="btn btn-primary pull-left" target="_self" href="#" onclick="javascript:window.close();return false;")
+            span(class="ion-log-out")
+            | Exit Survey
+    != js('lib/jquery-2.1.1.min')
+    != js('lib/bootstrap.min')
+    script(type='text/javascript').
+      jQuery(document).ready(function ($) {
+        $('input[name="isAjax"]').val('yes');
+        $('input[name="screenResolution"]').val(window.screen.width+'x'+window.screen.height);
+        $('form[name="response"]').submit(function (event) {
+          $.post(window.location.href, $(event.target).serialize(), function (data) {
+            if(typeof data !== 'undefined' && typeof data.meta !== 'undefined' && data.meta.success) {
+              $('#beforeSubmit').fadeOut(100, function () {
+                $('#afterSubmit').fadeIn(100);
+              });
+            }
+          }, 'json');
+          return false;
+        });
+      });

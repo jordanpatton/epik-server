@@ -392,6 +392,7 @@ passport.use('venmo', new OAuth2Strategy({
 
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) return next();
+  req.flash('errors', {msg: 'Please log in to continue.'});
   res.redirect('/login');
 };
 
@@ -405,4 +406,16 @@ exports.isAuthorized = function(req, res, next) {
   } else {
     res.redirect('/auth/' + provider);
   }
+};
+
+// Role-check middleware; accepts single value or Array.
+// Uses function[] to avoid making copies of the same function.
+exports.hasRole = function hasRole(role) {
+  return hasRole[role] || (hasRole[role] = function(req, res, next) {
+    if(role === req.user.role || role.indexOf(req.user.role) !== -1) {
+      next();
+    } else {
+      res.send(401, 'Unauthorized');
+    }
+  });
 };

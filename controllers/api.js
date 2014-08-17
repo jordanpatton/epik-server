@@ -25,6 +25,10 @@ var _ = require('lodash');
  */
 
 exports.getApi = function(req, res) {
+  if(!req.user) {
+    req.flash('errors', { msg: 'Please log in to continue.' });
+    return res.redirect('/login');
+  }
   res.render('api/index', {
     title: 'API Examples'
   });

@@ -23,8 +23,30 @@ var userSchema = new mongoose.Schema({
   },
 
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  role: { type: String, default: 'Guest' }
 });
+
+
+/**
+ * Constrain the list of valid roles.
+ */
+userSchema.methods.getValidRoles = function () {
+  return ['Administrator','Editor','Author','Guest'];
+};
+userSchema.path('role').validate(function (value) {
+  var validRoles = userSchema.methods.getValidRoles();
+  return (validRoles.indexOf(value) !== -1);
+}, 'User role is invalid.');
+/*userSchema.pre('save', function (next) {
+  var validRoles = userSchema.methods.getValidRoles();
+  if(validRoles.indexOf(this.role) !== -1) {
+    next();
+  } else {
+    next(new Error('User role is invalid.'));
+  }
+});*/
+
 
 /**
  * Hash the password for security.
