@@ -36,7 +36,7 @@ exports.getApp = function (req, res, next) {
  */
 exports.getApiV1Responses = function (req, res, next) {
   var _csrf = (typeof res.locals !== 'undefined' && typeof res.locals._csrf !== 'undefined') ? res.locals._csrf : "";
-  // GET Survey
+  // QUERY Survey
   Survey.findOne({"slug": req.params.survey_slug}).lean().exec(function (err, data) {
     if(err)                {res.json({"meta": {"success": false, "message": "Unknown error.", "_csrf": _csrf}}); return next(err);}
     else if(data === null) {res.json({"meta": {"success": false, "message": "Survey not found.", "_csrf": _csrf}});}
@@ -45,8 +45,11 @@ exports.getApiV1Responses = function (req, res, next) {
       //...............................................................
       // Check Session Permissions
       if(typeof req.session.permissions !== 'undefined' && typeof req.session.permissions.surveys !== 'undefined' && req.session.permissions.surveys.indexOf(survey_id) !== -1) {
-        // GET Responses
-        Response.find({"survey": survey_id}).lean().exec(function (err, data) {
+        var sort  = req.query.sort  || {'created': -1};
+        var limit = req.query.limit || 100;
+        var skip  = req.query.skip  || 0;
+        // QUERY Responses
+        Response.find({"survey": survey_id}).sort(sort).limit(limit).skip(skip).exec(function (err, data) {
           if(err) {res.json({"meta": {"success": false, "message": "Unknown error.", "_csrf": _csrf}}); return next(err);}
           else    {
             var data = (Object.prototype.toString.call(data) !== '[object Array]') ? [data] : data;
@@ -66,7 +69,11 @@ exports.getApiV1Responses = function (req, res, next) {
                 "referrer":         (typeof data[i].referrer         !== 'undefined') ? data[i].referrer         : ""
               });
             }
-            res.json({"meta": {"success": true, "_csrf": _csrf}, "responses": JSON});
+            // QUERY Response.count()
+            Response.count({"survey": survey_id}).exec(function (err, count) {
+              if(err) {res.json({"meta": {"success": false, "message": "Unknown error.", "_csrf": _csrf}}); return next(err);}
+              else    {res.json({"meta": {"success": true, "count": count, "_csrf": _csrf}, "responses": JSON});}
+            });
           }
         });
       } else {res.json({"meta": {"success": false, "message": "Access denied: insufficient permissions.", "_csrf": _csrf}});}

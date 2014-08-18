@@ -18,15 +18,31 @@ App.IndexRoute = Ember.Route.extend({ beforeModel: function () {this.transitionT
 App.IndexController = Ember.Controller.extend({});
 
 App.ResponsesRoute = Ember.Route.extend({
-  page: 1,
-  totalPages: 5,
+  sortProperties: 'created',
+  sortAscending:  false,
+  count:          0,  // total # of records
+  limit:          25, // records per page
+  page:           1,  // current page
+  totalPages:     1,  // total # of pages
   actions: {
     setPage:  function (i) {if(i>=1 && i<=this.totalPages) {this.page=i;  return this.refresh();}},
     prevPage: function ()  {if(this.page>1)                {this.page-=1; return this.refresh();}},
     nextPage: function ()  {if(this.page<this.totalPages)  {this.page+=1; return this.refresh();}}
   },
-  model: function () {return this.store.find('response', {page: this.page});},
+  model: function () {
+    var self  = this;
+    var sort  = {}; sort[this.sortProperties] = (this.sortAscending===false)?-1:1;
+    var limit = this.limit;
+    var skip  = (this.page-1)*this.limit;
+    return this.store.find('response', {'sort': sort, 'limit': limit, 'skip': skip}).then(
+      function success(result) {self.count = (typeof result.get('meta.count') !== 'undefined') ? result.get('meta.count') : self.count; self.totalPages = Math.ceil(parseInt(self.count,10)/parseInt(self.limit,10)); return result;},
+      function failure() {dbug('Failed to get responses.');}
+    );
+  },
   setupController: function (controller, model) {
+    controller.set('sortProperties', this.sortProperties);
+    controller.set('sortAscending', this.sortAscending);
+    controller.set('count', this.count);
     controller.set('page', this.page);
     controller.set('totalPages', this.totalPages);
     controller.set('model', model);
