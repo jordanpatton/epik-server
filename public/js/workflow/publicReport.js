@@ -25,9 +25,11 @@ App.ResponsesRoute = Ember.Route.extend({
   page:           1,  // current page
   totalPages:     1,  // total # of pages
   actions: {
-    setPage:  function (i) {if(i>=1 && i<=this.totalPages) {this.page=i;  return this.refresh();}},
-    prevPage: function ()  {if(this.page>1)                {this.page-=1; return this.refresh();}},
-    nextPage: function ()  {if(this.page<this.totalPages)  {this.page+=1; return this.refresh();}}
+    setSortProperties: function (v) {this.sortProperties=v;                        return this.refresh();},
+    setSortAscending:  function (v) {this.sortAscending=v;                         return this.refresh();},
+    setPage:           function (v) {if(v>=1 && v<=this.totalPages) {this.page=v;  return this.refresh();}},
+    prevPage:          function ()  {if(this.page>1)                {this.page-=1; return this.refresh();}},
+    nextPage:          function ()  {if(this.page<this.totalPages)  {this.page+=1; return this.refresh();}}
   },
   model: function () {
     var self  = this;
@@ -48,10 +50,14 @@ App.ResponsesRoute = Ember.Route.extend({
     controller.set('model', model);
   }
 });
+
 App.ResponsesController = Ember.ArrayController.extend({
-  sortProperties: ['created'],
-  sortAscending: false,
-  count: function () {return this.get('length');}.property('length'),
+  sortProperties: null,
+  sortAscending:  null,
+  count:          null,
+  limit:          null,
+  page:           null,
+  totalPages:     null,
   uniqueAnswerSlugs: function () {
     var result = [];
     this.get('content').forEach(function (response) {
@@ -62,6 +68,43 @@ App.ResponsesController = Ember.ArrayController.extend({
     });
     return result;
   }.property('content.@each.answers')
+});
+
+App.ResponsesSortPropertiesSelectView = Ember.Select.extend({
+  controller: null,
+  prompt: 'Sort By...',
+  content: [
+    {label: 'Created',           value: 'created'},
+    {label: 'IP Address',        value: 'ipAddress'},
+    {label: 'Agent',             value: 'agent'},
+    {label: 'Operating System',  value: 'operatingSystem'},
+    {label: 'Device',            value: 'device'},
+    {label: 'Screen Resolution', value: 'screenResolution'},
+    {label: 'Referrer',          value: 'referrer'}
+  ],
+  optionLabelPath: 'content.label',
+  optionValuePath: 'content.value',
+  value: null,
+  eventManager: Ember.Object.create({
+    change: function (event, view) {if(typeof event.target.value !== 'undefined' && event.target.value !== '') {return view.get('controller').send('setSortProperties',event.target.value);}}
+  })
+});
+
+App.ResponsesSortAscendingSelectView = Ember.Select.extend({
+  controller: null,
+  prompt: 'Sort Order...',
+  content: [
+    {label: 'Ascending',  value: 'true'},
+    {label: 'Descending', value: 'false'}
+  ],
+  optionLabelPath: 'content.label',
+  optionValuePath: 'content.value',
+  value: null,
+  fixValue: function () {this.set('value',this.get('value').toString());}.observes('value'),
+  init:     function () {this.set('value',this.get('value').toString()); return this._super();},
+  eventManager: Ember.Object.create({
+    change: function (event, view) {if(typeof event.target.value !== 'undefined' && event.target.value !== '') {return view.get('controller').send('setSortAscending',(event.target.value==='true'));}}
+  })
 });
 
 App.MappedAnswersComponent = Ember.Component.extend({
