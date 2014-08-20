@@ -1,4 +1,4 @@
-# Epic
+# Epik
 
 Get the whole story. Forked from [hackathon-starter](https://github.com/sahat/hackathon-starter).
 
@@ -6,8 +6,8 @@ Get the whole story. Forked from [hackathon-starter](https://github.com/sahat/ha
 
 Install via **git** (hosted on GitHub):
 
-    git clone git@github.com:jordanpatton/epic.git epic
-    cd epic
+    git clone git@github.com:jordanpatton/epik.git epik
+    cd epik
     npm install
 
 ## Usage

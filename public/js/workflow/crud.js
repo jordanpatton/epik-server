@@ -45,7 +45,7 @@ App.Router.reopen({rootURL: '/workflow/crud/'});
 // Application
 App.ApplicationRoute = Ember.Route.extend({});
 App.ApplicationController = Ember.Controller.extend({
-  title: 'Epic',
+  title: 'Epik',
   currentYear: function () {return (new Date()).getFullYear();}.property()
 });
 // (Application)Index

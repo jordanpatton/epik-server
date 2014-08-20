@@ -284,7 +284,7 @@ exports.postReset = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: 'email@address.com',
-        subject: 'Your Epic password has been changed',
+        subject: 'Your Epik password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };
@@ -362,7 +362,7 @@ exports.postForgot = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: 'email@address.com',
-        subject: 'Reset your password on Epic',
+        subject: 'Reset your password on Epik',
         text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +

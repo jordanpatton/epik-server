@@ -1,10 +1,10 @@
 {
-  "name": "epic",
+  "name": "epik",
   "version": "1.0.0",
   "description": "Get the whole story.",
   "author": "Jordan Patton <jordanpatton@gmail.com>",
   "keywords": [
-    "epic",
+    "epik",
     "surveys",
     "data",
     "user",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jordanpatton/epic.git"
+    "url": "https://github.com/jordanpatton/epik.git"
   },
   "private": true,
   "scripts": {
