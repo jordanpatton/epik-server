@@ -15,22 +15,25 @@ exports.index = function (req, res, next) {
  * GET /s/:survey_slug
  */
 exports.read = function (req, res, next) {
+  var _csrf = (typeof res.locals !== 'undefined' && typeof res.locals._csrf !== 'undefined') ? res.locals._csrf : "";
+  // 1. Fetch the Survey
   Survey.findOne({"slug": req.params.survey_slug}).lean().exec(function (err, data) {
     if(typeof req.query.json !== 'undefined' && req.query.json !== false && req.query.json !== 'false') {
-      // JSON response
-      if(err)                {res.json({"meta": {"success": false}}); return next(err);}
-      else if(data === null) {res.json({"meta": {"success": false}});}
+      // 2a. Response with JSON
+      if(err)                {res.json({"meta": {"success": false, "_csrf": _csrf}}); return next(err);}
+      else if(data === null) {res.json({"meta": {"success": false, "_csrf": _csrf}});}
       else                   {
-        res.json({
-          "_id":         (typeof data._id         !== 'undefined') ? data._id         : '',
-          "slug":        (typeof data.slug        !== 'undefined') ? data.slug        : '',
-          "title":       (typeof data.title       !== 'undefined') ? data.title       : '',
-          "description": (typeof data.description !== 'undefined') ? data.description : '',
-          "questions":   (typeof data.questions   !== 'undefined') ? data.questions   : ''
-        });
+        var JSON = [{
+          "_id":         (typeof data._id         !== 'undefined') ? data._id         : "",
+          "slug":        (typeof data.slug        !== 'undefined') ? data.slug        : "",
+          "title":       (typeof data.title       !== 'undefined') ? data.title       : "",
+          "description": (typeof data.description !== 'undefined') ? data.description : "",
+          "questions":   (typeof data.questions   !== 'undefined') ? data.questions   : ""
+        }];
+        res.json("meta": {"success": true, "_csrf": _csrf}, "surveys": JSON);
       }
     } else {
-      // HTML response
+      // 2b. Respond with HTML
       if(err)                {res.render('workflow/publicSurvey/error', { title: 'Error' }); return next(err);}
       else if(data === null) {res.render('workflow/publicSurvey/error', { title: 'Error' });}
       else                   {
@@ -46,6 +49,7 @@ exports.read = function (req, res, next) {
  * POST /s/:survey_slug
  */
 exports.create = function (req, res, next) {
+  var _csrf = (typeof res.locals !== 'undefined' && typeof res.locals._csrf !== 'undefined') ? res.locals._csrf : "";
   // 1. Build the JSON object
   var agent = useragent.parse((typeof req.body.userAgent !== 'undefined') ? req.body.userAgent : req.headers['user-agent']);
   var JSON = {
@@ -75,8 +79,8 @@ exports.create = function (req, res, next) {
   newResponse.save(function (err, data) {
     // 3. Respond to the user
     if((typeof req.query.json !== 'undefined' && req.query.json !== false && req.query.json !== 'false') || (typeof req.body.isAjax !== 'undefined' && req.body.isAjax === 'yes')) {
-      if(err) {res.json({"meta": {"success": false}}); return next(err);}
-      else    {res.json({"meta": {"success": true}});}
+      if(err) {res.json({"meta": {"success": false, "_csrf": _csrf}}); return next(err);}
+      else    {res.json({"meta": {"success": true, "_csrf": _csrf}});}
     } else {
       if(err) {res.render('workflow/publicSurvey/error', { title: 'Error' }); return next(err);}
       else    {res.render('workflow/publicSurvey/thankyou', { title: 'Thank You' });}
