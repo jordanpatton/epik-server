@@ -16,11 +16,27 @@ exports.index = function (req, res, next) {
  */
 exports.read = function (req, res, next) {
   Survey.findOne({"slug": req.params.survey_slug}).lean().exec(function (err, data) {
-    if(err)                {res.render('workflow/publicSurvey/error', { title: 'Error' }); return next(err);}
-    else if(data === null) {res.render('workflow/publicSurvey/error', { title: 'Error' });}
-    else                   {
-      var title = (typeof data.title !== 'undefined') ? data.title : 'Survey';
-      res.render('workflow/publicSurvey/app', { title: title, survey: data });
+    if(typeof req.query.json !== 'undefined' && req.query.json !== false && req.query.json !== 'false') {
+      // JSON response
+      if(err)                {res.json({"meta": {"success": false}}); return next(err);}
+      else if(data === null) {res.json({"meta": {"success": false}});}
+      else                   {
+        res.json({
+          "_id":         (typeof data._id         !== 'undefined') ? data._id         : '',
+          "slug":        (typeof data.slug        !== 'undefined') ? data.slug        : '',
+          "title":       (typeof data.title       !== 'undefined') ? data.title       : '',
+          "description": (typeof data.description !== 'undefined') ? data.description : '',
+          "questions":   (typeof data.questions   !== 'undefined') ? data.questions   : ''
+        });
+      }
+    } else {
+      // HTML response
+      if(err)                {res.render('workflow/publicSurvey/error', { title: 'Error' }); return next(err);}
+      else if(data === null) {res.render('workflow/publicSurvey/error', { title: 'Error' });}
+      else                   {
+        var title = (typeof data.title !== 'undefined') ? data.title : 'Survey';
+        res.render('workflow/publicSurvey/app', { title: title, survey: data });
+      }
     }
   });
 };
@@ -58,7 +74,7 @@ exports.create = function (req, res, next) {
   var newResponse = new Response(JSON);
   newResponse.save(function (err, data) {
     // 3. Respond to the user
-    if(typeof req.body.isAjax !== 'undefined' && req.body.isAjax === 'yes') {
+    if((typeof req.query.json !== 'undefined' && req.query.json !== false && req.query.json !== 'false') || (typeof req.body.isAjax !== 'undefined' && req.body.isAjax === 'yes')) {
       if(err) {res.json({"meta": {"success": false}}); return next(err);}
       else    {res.json({"meta": {"success": true}});}
     } else {
