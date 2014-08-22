@@ -100,6 +100,11 @@ App.ResponsesSortAscendingSelectView = Ember.Select.extend({
   optionLabelPath: 'content.label',
   optionValuePath: 'content.value',
   value: null,
+  //valueBool: function (key, value, previousValue) {
+  //  console.log(key, value, previousValue);
+  //  if(arguments.length > 1) {this.set('value', (value==='false'||!value)?'false':'true');}
+  //  return (this.get('value')==='false'||!this.get('value'))?false:true;
+  //}.property('value'),
   fixValue: function () {this.set('value',this.get('value').toString());}.observes('value'),
   init:     function () {this.set('value',this.get('value').toString()); return this._super();},
   eventManager: Ember.Object.create({
