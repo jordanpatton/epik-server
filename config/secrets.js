@@ -18,7 +18,8 @@
 
 module.exports = {
 
-  db: process.env.MONGODB|| 'mongodb://localhost:27017/epik',
+  //db: process.env.MONGODB|| 'mongodb://localhost:27017/epik',
+  db: process.env.MONGODB|| '***REMOVED***',
 
   sessionSecret: process.env.SESSION_SECRET || '***REMOVED***',
 
