@@ -30,7 +30,7 @@ exports.read = function (req, res, next) {
           "description": (typeof data.description !== 'undefined') ? data.description : "",
           "questions":   (typeof data.questions   !== 'undefined') ? data.questions   : ""
         }];
-        res.json("meta": {"success": true, "_csrf": _csrf}, "surveys": JSON);
+        res.json({"meta": {"success": true, "_csrf": _csrf}, "surveys": JSON});
       }
     } else {
       // 2b. Respond with HTML
