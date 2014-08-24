@@ -13,9 +13,7 @@ Ember.Handlebars.registerBoundHelper('getFullYear', function (value) {
 // BEGIN: EMBER APPLICATION
 //---------------------------------------------------------------
 // SETUP (APPLICATION NAMESPACE)
-var App = Ember.Application.create({
-  LOG_TRANSITIONS: isDbug
-});
+var App = Ember.Application.create({ LOG_TRANSITIONS: isDbug, LOG_TRANSITIONS_INTERNAL: isDbug, LOG_VIEW_LOOKUPS: isDbug });
 
 //---------------------------------------------------------------
 // ROUTER

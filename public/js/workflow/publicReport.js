@@ -4,7 +4,7 @@ var isDbug = true; function dbug() {if(isDbug){console.log.apply(console,argumen
 //===============================================================
 // BEGIN: EMBER APPLICATION
 //---------------------------------------------------------------
-var App = Ember.Application.create({ LOG_TRANSITIONS: isDbug });
+var App = Ember.Application.create({ LOG_TRANSITIONS: isDbug, LOG_TRANSITIONS_INTERNAL: isDbug, LOG_VIEW_LOOKUPS: isDbug });
 
 App.Router.map(function () {
   this.route(   'index',      {path: '/'});
