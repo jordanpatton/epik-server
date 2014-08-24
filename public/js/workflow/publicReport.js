@@ -33,7 +33,7 @@ App.ResponsesRoute = Ember.Route.extend({
   },
   model: function () {
     var self  = this;
-    var sort  = {}; sort[this.sortProperties] = (this.sortAscending===false)?-1:1;
+    var sort  = {}; sort[this.sortProperties] = (this.sortAscending==='false'||!this.sortAscending)?-1:1;
     var limit = this.limit;
     var skip  = (this.page-1)*this.limit;
     return this.store.find('response', {'sort': sort, 'limit': limit, 'skip': skip}).then(
@@ -43,11 +43,11 @@ App.ResponsesRoute = Ember.Route.extend({
   },
   setupController: function (controller, model) {
     controller.set('sortProperties', this.sortProperties);
-    controller.set('sortAscending', this.sortAscending);
-    controller.set('count', this.count);
-    controller.set('page', this.page);
-    controller.set('totalPages', this.totalPages);
-    controller.set('model', model);
+    controller.set('sortAscending',  this.sortAscending);
+    controller.set('count',          this.count);
+    controller.set('page',           this.page);
+    controller.set('totalPages',     this.totalPages);
+    controller.set('model',          model);
   }
 });
 
@@ -58,6 +58,10 @@ App.ResponsesController = Ember.ArrayController.extend({
   limit:          null,
   page:           null,
   totalPages:     null,
+  sortAscendingString: function (key, value, previousValue) {
+    /*set*/ if(arguments.length > 1) {this.set('sortAscending',((value==='false'||!value)?false:true));}
+    /*get*/ return (this.get('sortAscending')==='false'||!this.get('sortAscending'))?'false':'true';
+  }.property('sortAscending'),
   uniqueAnswerSlugs: function () {
     var result = [];
     this.get('content').forEach(function (response) {
@@ -100,15 +104,8 @@ App.ResponsesSortAscendingSelectView = Ember.Select.extend({
   optionLabelPath: 'content.label',
   optionValuePath: 'content.value',
   value: null,
-  //valueBool: function (key, value, previousValue) {
-  //  console.log(key, value, previousValue);
-  //  if(arguments.length > 1) {this.set('value', (value==='false'||!value)?'false':'true');}
-  //  return (this.get('value')==='false'||!this.get('value'))?false:true;
-  //}.property('value'),
-  fixValue: function () {this.set('value',this.get('value').toString());}.observes('value'),
-  init:     function () {this.set('value',this.get('value').toString()); return this._super();},
   eventManager: Ember.Object.create({
-    change: function (event, view) {if(typeof event.target.value !== 'undefined' && event.target.value !== '') {return view.get('controller').send('setSortAscending',(event.target.value==='true'));}}
+    change: function (event, view) {if(typeof event.target.value !== 'undefined' && event.target.value !== '') {return view.get('controller').send('setSortAscending',((event.target.value==='false'||!event.target.value)?false:true));}}
   })
 });
 

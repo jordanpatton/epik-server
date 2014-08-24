@@ -46,7 +46,7 @@ exports.getApiV1Responses = function (req, res, next) {
       // Check Session Permissions
       if(typeof req.session.permissions !== 'undefined' && typeof req.session.permissions.surveys !== 'undefined' && req.session.permissions.surveys.indexOf(survey_id) !== -1) {
         var sort  = req.query.sort  || {'created': -1};
-        var limit = req.query.limit || 100;
+        var limit = req.query.limit || 25;
         var skip  = req.query.skip  || 0;
         // QUERY Responses
         Response.find({"survey": survey_id}).sort(sort).limit(limit).skip(skip).exec(function (err, data) {
@@ -54,9 +54,9 @@ exports.getApiV1Responses = function (req, res, next) {
           else    {
             var data = (Object.prototype.toString.call(data) !== '[object Array]') ? [data] : data;
             // Sanitize the data (only send "public" info)
-            var JSON = [];
+            var PAYLOAD = [];
             for(var i = 0; i < data.length; i++) {
-              JSON.push({
+              PAYLOAD.push({
                 "_id":              (typeof data[i]._id              !== 'undefined') ? data[i]._id              : "",
                 "survey":           (typeof data[i].survey           !== 'undefined') ? data[i].survey           : "",
                 "answers":          (typeof data[i].answers          !== 'undefined') ? data[i].answers          : "",
@@ -72,7 +72,7 @@ exports.getApiV1Responses = function (req, res, next) {
             // QUERY Response.count()
             Response.count({"survey": survey_id}).exec(function (err, count) {
               if(err) {res.json({"meta": {"success": false, "message": "Unknown error.", "_csrf": _csrf}}); return next(err);}
-              else    {res.json({"meta": {"success": true, "count": count, "_csrf": _csrf}, "responses": JSON});}
+              else    {res.json({"meta": {"success": true, "count": count, "_csrf": _csrf}, "responses": PAYLOAD});}
             });
           }
         });

@@ -20,7 +20,7 @@
       <div class="col-lg-9" style="height:60px;">
         <div class="row pull-right">
           <div class="col-sm-3" style="margin-top:21px;">{{view App.ResponsesSortPropertiesSelectView controller=controller valueBinding="sortProperties" required="false" class="form-control"}}</div>
-          <div class="col-sm-3" style="margin-top:21px;">{{view App.ResponsesSortAscendingSelectView controller=controller valueBinding="sortAscending" required="false" class="form-control"}}</div>
+          <div class="col-sm-3" style="margin-top:21px;">{{view App.ResponsesSortAscendingSelectView controller=controller valueBinding="sortAscendingString" required="false" class="form-control"}}</div>
           <div class="col-sm-6"><ul class="pagination"><li><a href="#" {{action "prevPage"}}>&lt;&nbsp;Prev</a></li><li class="active"><a>&nbsp;&nbsp;Page {{page}} of {{totalPages}}&nbsp;&nbsp;</a></li><li><a href="#" {{action "nextPage"}}>Next&nbsp;&gt;</a></li></ul></div>
         </div>
       </div>
