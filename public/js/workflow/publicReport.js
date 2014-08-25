@@ -37,8 +37,8 @@ App.ResponsesRoute = Ember.Route.extend({
     var limit = this.limit;
     var skip  = (this.page-1)*this.limit;
     return this.store.find('response', {'sort': sort, 'limit': limit, 'skip': skip}).then(
-      function success(result) {self.count = (typeof result.get('meta.count') !== 'undefined') ? result.get('meta.count') : self.count; self.totalPages = Math.ceil(parseInt(self.count,10)/parseInt(self.limit,10)); return result;},
-      function failure() {dbug('Failed to get responses.');}
+      function success(result) {self.count = (typeof result.get('meta.count') !== 'undefined') ? result.get('meta.count') : self.count; self.totalPages = Math.ceil(parseInt(self.count,10)/parseInt(self.limit,10)) || 1; return result;},
+      function failure()       {dbug('Failed to get responses.');}
     );
   },
   setupController: function (controller, model) {
