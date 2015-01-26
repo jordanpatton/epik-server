@@ -1,15 +1,23 @@
-# Epik
+Epik
+=======================
+Get the whole story.
 
-Get the whole story. Forked from [hackathon-starter](https://github.com/sahat/hackathon-starter).
+### What is it?
+Epik is a client-server application that helps you collect rich data from users.
 
-## Installation
-
-Install via **git** (hosted on GitHub):
-
-    git clone git@github.com:jordanpatton/epik.git epik
-    cd epik
-    npm install
+## How do I use it?
+```bash
+# install with git
+git clone https://github.com/jordanpatton/epik-server.git
+cd epik-server
+npm install
+bower install
+```
 
 ## Usage
+```bash
+node app.js
+```
 
-    node app.js
+## License
+[MIT](LICENSE). Forked from [hackathon-starter](https://github.com/sahat/hackathon-starter) which also uses an [MIT license](https://github.com/sahat/hackathon-starter#license).
