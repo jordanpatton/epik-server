@@ -8,7 +8,7 @@ html
     meta(name='csrf-token', content=_csrf)
     meta(name='author', content='')
     title #{title || "Log In"}
-    != css('styles')
+    != css('main')
   body(style="padding-top:0;")
     .container
       h3 Log In
@@ -29,5 +29,5 @@ html
               button(type="submit" class="btn btn-primary pull-right")
                 span(class="ion-locked")
                 | Log In
-    != js('lib/jquery-2.1.1.min')
+    != js('lib/jquery-2.1.3.min')
     != js('lib/bootstrap.min')

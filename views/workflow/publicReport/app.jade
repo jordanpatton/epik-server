@@ -8,13 +8,13 @@ html
     meta(name='csrf-token', content=_csrf)
     meta(name='author', content='')
     title #{title}
-    != css('styles')
+    != css('main')
   body(style="padding-top:0;")
     
     .container
       include app.html
     
-    != js('lib/jquery-2.1.1.min')
+    != js('lib/jquery-2.1.3.min')
     != js('lib/bootstrap.min')
     script(src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js")
     script(src="//cdnjs.cloudflare.com/ajax/libs/ember.js/1.6.1/ember.js")

@@ -8,7 +8,7 @@ html
     meta(name='csrf-token', content=_csrf)
     meta(name='author', content='')
     title #{title || "Thank You"}
-    != css('styles')
+    != css('main')
   body(style="padding-top:0;")
     .container
       div(row)
@@ -21,5 +21,5 @@ html
           a(class="btn btn-primary pull-left" target="_self" href="#" onclick="javascript:window.close();return false;")
             span(class="ion-log-out")
             | Exit Survey
-    != js('lib/jquery-2.1.1.min')
+    != js('lib/jquery-2.1.3.min')
     != js('lib/bootstrap.min')
