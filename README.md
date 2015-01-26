@@ -5,7 +5,7 @@ Get the whole story.
 ### What is it?
 Epik is a client-server application that helps you collect rich data from users.
 
-## How do I use it?
+### Installation
 ```bash
 # install with git
 git clone https://github.com/jordanpatton/epik-server.git
@@ -14,10 +14,10 @@ npm install
 bower install
 ```
 
-## Usage
+### Usage
 ```bash
 node app.js
 ```
 
-## License
+### License
 [MIT](LICENSE). Forked from [hackathon-starter](https://github.com/sahat/hackathon-starter) which also uses an [MIT license](https://github.com/sahat/hackathon-starter#license).
