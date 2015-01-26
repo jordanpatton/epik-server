@@ -72,8 +72,3 @@ block content
 
   .page-header
     h3 Linked Accounts
-
-  if user.google
-    p: a.text-danger(href='/account/unlink/google') Unlink your Google account
-  else
-    p: a(href='/auth/google') Link your Google account

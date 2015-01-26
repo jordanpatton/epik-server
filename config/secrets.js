@@ -7,6 +7,6 @@ module.exports = {
   gmail: {
     user: process.env.GMAIL_USER || 'user@gmail.com',
     password: process.env.GMAIL_PASSWORD || 'password'
-  },
+  }
   
 };
