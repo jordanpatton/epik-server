@@ -1,6 +1,9 @@
-var useragent = require('useragent');
-var Survey    = require('../../models/Survey');
-var Response  = require('../../models/Response');
+var secrets     = require('../../config/secrets');
+var nodemailer  = require('nodemailer');
+var transporter = nodemailer.createTransport({service: 'Gmail', auth: {user: secrets.gmail.user, pass: secrets.gmail.password}});
+var useragent   = require('useragent');
+var Survey      = require('../../models/Survey');
+var Response    = require('../../models/Response');
 
 
 /**
@@ -86,4 +89,22 @@ exports.create = function (req, res, next) {
       else    {res.render('workflow/publicSurvey/thankyou', { title: 'Thank You' });}
     }
   });
+  // 4. Email the JSON object
+  /*
+  if(true) {
+    var mailOptions = {
+      from:    secrets.gmail.user+' <'+secrets.gmail.user+'>',
+      to:      'ux@brandingbrand.com',
+      subject: 'Feedback: '+req.get('host')+' @ '+Date.now(),
+      text:    '[comment: '           +((typeof req.body.answers !== 'undefined' && typeof req.body.answers.comment !== 'undefined') ? req.body.answers.comment : '')+']'
+              +'[email: '             +((typeof req.body.answers !== 'undefined' && typeof req.body.answers.email   !== 'undefined') ? req.body.answers.email   : '')+']',
+      html:    '<h3>comment: </h3><p>'+((typeof req.body.answers !== 'undefined' && typeof req.body.answers.comment !== 'undefined') ? req.body.answers.comment : '')+'</p>'
+              +'<h3>email: </h3><p>'  +((typeof req.body.answers !== 'undefined' && typeof req.body.answers.email   !== 'undefined') ? req.body.answers.email   : '')+'</p>'
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if(error) {console.log(error);}
+      else      {console.log('[nodemailer] message sent: '+info.response);}
+    });
+  }
+  */
 };
