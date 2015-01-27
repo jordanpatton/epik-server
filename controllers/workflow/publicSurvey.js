@@ -41,7 +41,7 @@ exports.read = function (req, res, next) {
       else if(data === null) {res.render('workflow/publicSurvey/error', { title: 'Error' });}
       else                   {
         var title = (typeof data.title !== 'undefined') ? data.title : 'Survey';
-        res.render('workflow/publicSurvey/app', { title: title, survey: data });
+        res.render('workflow/publicSurvey/index', { title: title, survey: data });
       }
     }
   });

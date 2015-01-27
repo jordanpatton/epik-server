@@ -8,16 +8,15 @@ html
     title #{title} - Epik
     != css('main')
   body
-    include partials/navbar
+    include ../../partials/navbar
     .container
-      include partials/flash
-      .page-header
-        h1 Get the whole story.
-      .row
-        .col-sm-12
-          p <strong>Epik</strong> performs qualitative research and gathers rich data from users.
-          p <strong>Interested?</strong> Epik isn't publicly available, but you're welcome to <a href="/contact">contact us</a> with ideas.
-    include partials/footer
+      include ../../partials/flash
+      include index.html
+    include ../../partials/footer
     
     script(src="/components/jquery/dist/jquery.min.js")
+    script(src="/components/handlebars/handlebars.min.js")
+    script(src="/components/ember/ember.js")
+    script(src="/components/ember-data/ember-data.js")
     script(src="/components/bootstrap/dist/js/bootstrap.min.js")
+    != js('workflow/crud')

@@ -13,7 +13,7 @@ exports.index = function (req, res, next) {
 /**
  * GET /r/:survey_slug
  */
-exports.getApp = function (req, res, next) {
+exports.read = function (req, res, next) {
   Survey.findOne({"slug": req.params.survey_slug}).lean().exec(function (err, data) {
     if(err)                {res.render('workflow/publicReport/error', { title: 'Error' }); return next(err);}
     else if(data === null) {res.render('workflow/publicReport/error', { title: 'Error' });}
@@ -23,7 +23,7 @@ exports.getApp = function (req, res, next) {
       //...............................................................
       // Check Session Permissions
       if(typeof req.session.permissions !== 'undefined' && typeof req.session.permissions.surveys !== 'undefined' && req.session.permissions.surveys.indexOf(survey_id) !== -1) {
-        res.render('workflow/publicReport/app', { title: survey_title });
+        res.render('workflow/publicReport/index', { title: survey_title });
       } else {res.redirect('/r/'+req.params.survey_slug+'/login');}
       //...............................................................
     }

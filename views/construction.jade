@@ -1,6 +1,22 @@
-extends layout
-
-block content
-  .page-header
-    h3 !{title || 'Construction'}
-  p Under construction.
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='csrf-token', content=_csrf)
+    title #{title} - Epik
+    != css('main')
+  body
+    include partials/navbar
+    .container
+      include partials/flash
+      .page-header
+        h1 Construction
+      .row
+        .col-sm-12
+          p Uh oh! This page is under construction.
+    include partials/footer
+    
+    script(src="/components/jquery/dist/jquery.min.js")
+    script(src="/components/bootstrap/dist/js/bootstrap.min.js")

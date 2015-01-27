@@ -5,15 +5,15 @@ html
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='csrf-token', content=_csrf)
-    title #{title || "Error"}
+    title #{title || "Report"}
     != css('main')
   body(style="padding-top:0;")
     .container
-      .page-header
-        h1 Error
-      .row
-        .col-sm-12
-          p Uh oh! An error occurred!
+      include index.html
     
     script(src="/components/jquery/dist/jquery.min.js")
+    script(src="/components/handlebars/handlebars.min.js")
+    script(src="/components/ember/ember.js")
+    script(src="/components/ember-data/ember-data.js")
     script(src="/components/bootstrap/dist/js/bootstrap.min.js")
+    != js('workflow/publicReport')

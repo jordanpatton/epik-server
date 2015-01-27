@@ -132,7 +132,7 @@ app.delete('/api/v1/users/:id',     passportConf.isAuthenticated, passportConf.h
  * Workflow Routes.
  */
 app.get(   '/r',                                                                                                    workflowPublicReportController.index);
-app.get(   '/r/:survey_slug',                                                                                       workflowPublicReportController.getApp);
+app.get(   '/r/:survey_slug',                                                                                       workflowPublicReportController.read);
 app.get(   '/r/:survey_slug/api/v1/responses',                                                                      workflowPublicReportController.getApiV1Responses);
 app.get(   '/r/:survey_slug/login',                                                                                 workflowPublicReportController.getLogin);
 app.post(  '/r/:survey_slug/login',                                                                                 workflowPublicReportController.postLogin);

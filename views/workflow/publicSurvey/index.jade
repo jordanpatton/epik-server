@@ -4,9 +4,7 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(name='description', content='')
     meta(name='csrf-token', content=_csrf)
-    meta(name='author', content='')
     title #{title || "Survey"}
     != css('main')
   body(style="padding-top:0;")
@@ -55,8 +53,9 @@ html
           a(class="btn btn-primary pull-left" target="_self" href="#" onclick="javascript:window.close();return false;")
             span(class="ion-log-out")
             | Exit Survey
-    != js('lib/jquery-2.1.3.min')
-    != js('lib/bootstrap.min')
+    
+    script(src="/components/jquery/dist/jquery.min.js")
+    script(src="/components/bootstrap/dist/js/bootstrap.min.js")
     script(type='text/javascript').
       jQuery(document).ready(function ($) {
         $('input[name="isAjax"]').val('yes');
