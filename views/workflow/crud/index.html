@@ -22,7 +22,7 @@
   <div class="row">
     <div class="col-sm-3">
       <div class="list-group">
-        {{#each}}{{#link-to "survey" this classNames="list-group-item"}}{{title}}{{/link-to}}{{/each}}
+        {{#each survey in this}}{{#link-to "survey" survey classNames="list-group-item"}}{{survey.title}}{{/link-to}}{{/each}}
       </div>
     </div>
     <div class="col-sm-9">
@@ -82,31 +82,31 @@
 <script type="text/x-handlebars" data-template-name="components/survey-fields">
   <div class="form-group">
     <label for="slug" class="col-lg-3 control-label">Slug</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.slug" id="slug" placeholder="Slug" required="true" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="survey.slug" id="slug" placeholder="Slug" required="true" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="title" class="col-lg-3 control-label">Title</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.title" id="title" placeholder="Title" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="survey.title" id="title" placeholder="Title" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="description" class="col-lg-3 control-label">Description</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.description" id="description" placeholder="Description" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="survey.description" id="description" placeholder="Description" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="password" class="col-lg-3 control-label">Password</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.password" id="password" placeholder="Password" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="survey.password" id="password" placeholder="Password" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="googleAnalyticsId" class="col-lg-3 control-label">Google Analytics ID</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.googleAnalyticsId" id="googleAnalyticsId" placeholder="Google Analytics ID" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="survey.googleAnalyticsId" id="googleAnalyticsId" placeholder="Google Analytics ID" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="inspectletId" class="col-lg-3 control-label">Inspectlet ID</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.inspectletId" id="inspectletId" placeholder="Inspectlet ID" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="survey.inspectletId" id="inspectletId" placeholder="Inspectlet ID" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="jiraKey" class="col-lg-3 control-label">JIRA Key</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="survey.jiraKey" id="jiraKey" placeholder="JIRA Key" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="survey.jiraKey" id="jiraKey" placeholder="JIRA Key" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="panel panel-primary">
     <div class="panel-heading">
@@ -127,11 +127,11 @@
       <tbody>
         {{#each question in survey.questions}}
         <tr>
-          <td>{{view Ember.TextField valueBinding="question.slug" placeholder="Slug" required="false" class="form-control" disabled=isDisabled}}</td>
-          <td>{{view Ember.Select selectionBinding="question.type" content=validQuestionTypes prompt="Select A Type..." required="false" class="form-control" disabled=isDisabled}}</td>
-          <td>{{view Ember.TextField valueBinding="question.label" placeholder="Label" required="false" class="form-control" disabled=isDisabled}}</td>
-          <td>{{view Ember.TextField valueBinding="question.placeholder" placeholder="Placeholder" required="false" class="form-control" disabled=isDisabled}}</td>
-          <td>{{view Ember.Checkbox checkedBinding="question.required" title="required" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{input type="text" valueBinding="question.slug" placeholder="Slug" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{view "select" selectionBinding="question.type" content=validQuestionTypes prompt="Select A Type..." required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{input type="text" valueBinding="question.label" placeholder="Label" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{input type="text" valueBinding="question.placeholder" placeholder="Placeholder" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{input type="checkbox" checkedBinding="question.required" title="required" required="false" class="form-control" disabled=isDisabled}}</td>
           <td><button {{action "removeQuestion" question}} {{bind-attr disabled=isDisabled}} class="btn btn-danger" style="padding-left:12px;padding-right:12px;"><span class="fa fa-trash-o fa-lg" style="margin:auto;"></span></button></td>
         </tr>
         {{/each}}
@@ -149,7 +149,7 @@
   <div class="row">
     <div class="col-sm-3">
       <div class="list-group">
-        {{#each}}{{#link-to "response" this classNames="list-group-item"}}{{id}}{{/link-to}}{{/each}}
+        {{#each response in this}}{{#link-to "response" response classNames="list-group-item"}}{{response.id}}{{/link-to}}{{/each}}
       </div>
     </div>
     <div class="col-sm-9">
@@ -209,47 +209,47 @@
 <script type="text/x-handlebars" data-template-name="components/response-fields">
   <div class="form-group">
     <label for="survey" class="col-lg-3 control-label">Survey</label>
-    <div class="col-lg-9">{{view Ember.Select selectionBinding="response.survey" content=validSurveys optionValuePath="content.id" optionLabelPath="content.slug" id="survey" prompt="Select A Survey..." required="true" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{view "select" selectionBinding="response.survey" content=validSurveys optionValuePath="content.id" optionLabelPath="content.slug" id="survey" prompt="Select A Survey..." required="true" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="ipAddress" class="col-lg-3 control-label">IP Address</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.ipAddress" id="ipAddress" placeholder="IP Address" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.ipAddress" id="ipAddress" placeholder="IP Address" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="agent" class="col-lg-3 control-label">Agent</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.agent" id="agent" placeholder="Agent" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.agent" id="agent" placeholder="Agent" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="operatingSystem" class="col-lg-3 control-label">Operating System</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.operatingSystem" id="operatingSystem" placeholder="Operating System" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.operatingSystem" id="operatingSystem" placeholder="Operating System" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="device" class="col-lg-3 control-label">Device</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.device" id="device" placeholder="Device" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.device" id="device" placeholder="Device" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="screenResolution" class="col-lg-3 control-label">Screen Resolution</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.screenResolution" id="screenResolution" placeholder="Screen Resolution" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.screenResolution" id="screenResolution" placeholder="Screen Resolution" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="referrer" class="col-lg-3 control-label">Referrer</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.referrer" id="referrer" placeholder="Referrer" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.referrer" id="referrer" placeholder="Referrer" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="visitorId" class="col-lg-3 control-label">Visitor ID</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.visitorId" id="visitorId" placeholder="Visitor ID" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.visitorId" id="visitorId" placeholder="Visitor ID" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="imported" class="col-lg-3 control-label">Imported?</label>
-    <div class="col-lg-9">{{view Ember.Checkbox checkedBinding="response.imported" id="imported" title="imported" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="checkbox" checkedBinding="response.imported" id="imported" title="imported" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="inspectletCaptureSid" class="col-lg-3 control-label">Inspectlet Capture SID</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.inspectletCaptureSid" id="inspectletCaptureSid" placeholder="Inspectlet Capture SID" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.inspectletCaptureSid" id="inspectletCaptureSid" placeholder="Inspectlet Capture SID" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="form-group">
     <label for="inspectletCaptureUrl" class="col-lg-3 control-label">Inspectlet Capture URL</label>
-    <div class="col-lg-9">{{view Ember.TextField valueBinding="response.inspectletCaptureUrl" id="inspectletCaptureUrl" placeholder="Inspectlet Capture URL" required="false" class="form-control" disabled=isDisabled}}</div>
+    <div class="col-lg-9">{{input type="text" valueBinding="response.inspectletCaptureUrl" id="inspectletCaptureUrl" placeholder="Inspectlet Capture URL" required="false" class="form-control" disabled=isDisabled}}</div>
   </div>
   <div class="panel panel-primary">
     <div class="panel-heading">
@@ -267,8 +267,8 @@
       <tbody>
         {{#each answer in response.answers}}
         <tr>
-          <td>{{view Ember.TextField valueBinding="answer.slug" placeholder="Slug" required="false" class="form-control" disabled=isDisabled}}</td>
-          <td>{{view Ember.TextField valueBinding="answer.value" placeholder="Value" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{input type="text" valueBinding="answer.slug" placeholder="Slug" required="false" class="form-control" disabled=isDisabled}}</td>
+          <td>{{input type="text" valueBinding="answer.value" placeholder="Value" required="false" class="form-control" disabled=isDisabled}}</td>
           <td><button {{action "removeAnswer" answer}} {{bind-attr disabled=isDisabled}} class="btn btn-danger" style="padding-left:12px;padding-right:12px;"><span class="fa fa-trash-o fa-lg" style="margin:auto;"></span></button></td>
         </tr>
         {{/each}}
