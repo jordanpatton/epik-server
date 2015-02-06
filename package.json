@@ -20,7 +20,8 @@
   "private": false,
   "scripts": {
     "start": "node app.js",
-    "test": "mocha"
+    "test": "mocha",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "async": "^0.9.0",
