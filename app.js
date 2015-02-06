@@ -25,6 +25,7 @@ var connectAssets = require('connect-assets');
  */
 var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
+var contactController = require('./controllers/contact');
 var apiV1ResponsesController = require('./controllers/api/v1/responses');
 var apiV1SurveysController   = require('./controllers/api/v1/surveys');
 var apiV1UsersController     = require('./controllers/api/v1/users');
@@ -104,6 +105,8 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+app.get('/contact', contactController.getContact);
+app.post('/contact', contactController.postContact);
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
